@@ -14,7 +14,7 @@ export const DashboardPage = () => {
         <GridLayout
           leftChildren={<img src={kayden} alt="Kayden" />}
           rightChildrenText1="Play (with rizz)"
-          rightChildrenText2="Leaderboard"
+          rightChildrenText2="Scoreboard"
         />
       </BodyPanel>
     </MainLayout>
