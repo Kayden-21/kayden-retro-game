@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { LoginPage } from "./pages/loginPage";
-import { DashboardPage } from "./pages/dashboardPage";
+import { LoginPage } from "./LoginPage/loginPage";
+import { DashboardPage } from "./DashboardPage/dashboardPage";
 
 export const PageRouter = () => {
   return (
