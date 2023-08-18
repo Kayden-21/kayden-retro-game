@@ -1,26 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {Header} from "./ui/components/Header/Header";
+import {Login} from "./ui/components/Login/Login";
+import {Score} from "./ui/components/Score/Score";
+import {Footer} from "./ui/components/Footer/Footer";
+import {BodyWrapper, MainWrapper} from "./App.styles";
+import {Game} from "./ui/components/Game/Game";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <BrowserRouter>
+            <BodyWrapper>
+                <Header/>
+                <MainWrapper>
+                    <Routes>
+                        <Route path={'/'} element={<Login/>}/>
+                        <Route path={'/score'} element={<Score/>}/>
+                        <Route path={'/game'} element={<Game/>}/>
+                    </Routes>
+                </MainWrapper>
+                <Footer/>
+            </BodyWrapper>
+        </BrowserRouter>
+
+    );
 }
 
 export default App;
