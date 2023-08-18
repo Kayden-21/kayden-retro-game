@@ -1,12 +1,11 @@
 import React from "react";
-import "../../assets/css/App.css";
+import { LoginLayout } from "../../components/baseLayout/baseLayout";
+import { LoginForm } from "../../components/loginForm/loginForm";
 
 export const LoginPage = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Login</h1>
-      </header>
-    </div>
+    <LoginLayout>
+      <LoginForm heading="Login" buttonText="Login with Google" />
+    </LoginLayout>
   );
 };

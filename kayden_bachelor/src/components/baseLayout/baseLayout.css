@@ -1,0 +1,15 @@
+.loginBackground {
+  background-image: url("../../assets/images/loginBackground.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+.mainBackground {
+  background-image: url("../../assets/images/mainBackground.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
