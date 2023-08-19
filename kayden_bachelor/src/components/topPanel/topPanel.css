@@ -1,0 +1,16 @@
+.topPanel {
+  /* text */
+  font-family: "Roboto", sans-serif;
+  font-size: 30px;
+  text-align: center;
+
+  /* colours */
+  color: #ff0000;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+
+  /* size and position */
+  position: absolute;
+  height: 100px;
+  width: 100%;
+}
