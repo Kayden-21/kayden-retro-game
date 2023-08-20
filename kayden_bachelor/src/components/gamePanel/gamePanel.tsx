@@ -17,6 +17,7 @@ export type GamePanelProps = {
 export const GamePanel = ({ className, children, startPosY, start, marriagePicPosition, linePositions, speed }: GamePanelProps) => {
 
   useEffect(() => {
+    done= false;
     createButtons();
     addListener();
     animateHorizontal();
@@ -27,6 +28,7 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
   let buttons : any[] = [];
   let userButtons: any[] = [];
   let verticalCounter = 0;
+  let done= false;
 
   function animateHorizontal(): boolean {
     if (!start) {
@@ -45,6 +47,9 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     
     drawCanvas(ctx, canvas);
 
+    ctx.drawImage(kayden, posX, startPosY, 124, 143); 
+    
+
     if (posX >= 1160) {
       ended = true;
       return true; 
@@ -53,21 +58,18 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     if (shouldKaydenMoveVertical()){
       animateVertical();
       verticalCounter = 0;
-      console.log(posX);
+      done = true;
     }
     else{
-      
+      posX += speed;
+      requestAnimationFrame(animateHorizontal); 
     }
-
-    posX += speed;
-    ctx.drawImage(kayden, posX, startPosY, 124, 143); 
-
-    requestAnimationFrame(animateHorizontal); 
+    
     return false;
   }
 
   function shouldKaydenMoveVertical() : boolean{
-    if (posX <= 30 && posX>28)
+    if (!done)
     return true;
     else
     return false;
@@ -90,13 +92,16 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     
     startPosY += speed;
     verticalCounter += speed; 
-    console.log(verticalCounter);
-    console.log(posX);
 
     if (verticalCounter >= 116) {
-      return; 
+      requestAnimationFrame(animateHorizontal); 
     }
-    requestAnimationFrame(animateVertical); 
+    else{
+      requestAnimationFrame(animateVertical); 
+    }
+
+
+    
   }
 
   function drawCanvas(ctx: any, canvas: any) {
