@@ -79,7 +79,7 @@ export const GamePanel = ({ className, children, startPos, start, marriagePicPos
     buttons = [];
     let ypositions = [122, 242, 362]
     for (let pos of ypositions){
-      for (let x = 650; x <= 1150; x += 10) {
+      for (let x = 650; x <= 1170; x += 10) {
         buttons.push({x: x, y:pos, width: 5, height: 116});
       }
     }
@@ -93,27 +93,21 @@ export const GamePanel = ({ className, children, startPos, start, marriagePicPos
     }
 
     canvas.addEventListener("click", function(event) {
-      console.log(canvas.getBoundingClientRect().left);
-      //console.log(canvas.getBoundingClientRect().top);
       
-      const mouseX = event.clientX + 210;
+      const mouseX = event.clientX - canvas.getBoundingClientRect().left - 20;
       const mouseY = event.clientY - canvas.getBoundingClientRect().top;
       console.log(mouseX);
       console.log(mouseY);
       
       buttons.forEach(button => {
-      // Check if click occurred within the button area
-      //console.log(button.x);
-      //console.log(button.x+button.width);
-      //console.log(button.y);
-      //console.log(button.y + button.height);
-      if (mouseX >= button.x &&
-        mouseX <= button.x + 10 &&
+      if (mouseX >= button.x - 4  &&
+        mouseX <= button.x + 5 &&
         mouseY >= button.y &&
         mouseY <= button.y + 116
       ) {
+        console.log(button.x);
+        console.log(button.y);
         userButtons.push({x: button.x, y:button.y, width: 5, height: 116});
-        // Perform button action
       }
       });
     });
