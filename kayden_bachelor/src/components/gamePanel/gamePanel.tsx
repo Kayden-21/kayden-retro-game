@@ -17,7 +17,7 @@ export type GamePanelProps = {
 export const GamePanel = ({ className, children, startPosY, start, marriagePicPosition, linePositions, speed }: GamePanelProps) => {
 
   useEffect(() => {
-    done= false;
+    posX = 0;
     createButtons();
     addListener();
     animateHorizontal();
@@ -28,7 +28,6 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
   let buttons : any[] = [];
   let userButtons: any[] = [];
   let verticalCounter = 0;
-  let done= false;
 
   function animateHorizontal(): boolean {
     if (!start) {
@@ -55,10 +54,17 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
       return true; 
     }
 
-    if (shouldKaydenMoveVertical()){
-      animateVertical();
+    let movements = shouldKaydenMoveVertical();
+    
+
+    if (movements.move){
+      if (movements.up){
+        animateVerticalUp();
+      }
+      else{
+        animateVerticalDown();
+      }
       verticalCounter = 0;
-      done = true;
     }
     else{
       posX += speed;
@@ -68,14 +74,17 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     return false;
   }
 
-  function shouldKaydenMoveVertical() : boolean{
-    if (!done)
-    return true;
-    else
-    return false;
+  function shouldKaydenMoveVertical() : any{
+    if (posX < 20 && posX >18){
+      return {move: true, up: false};
+    }
+    else{
+      return {move: false, up: true};
+    }
+
   }
 
-  function animateVertical() {
+  function animateVerticalDown() {
 
     let canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
     let ctx : any;
@@ -94,14 +103,38 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     verticalCounter += speed; 
 
     if (verticalCounter >= 116) {
+      posX += 2;
       requestAnimationFrame(animateHorizontal); 
     }
     else{
-      requestAnimationFrame(animateVertical); 
+      requestAnimationFrame(animateVerticalDown); 
+    }
+  }
+
+  function animateVerticalUp(){
+    let canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
+    let ctx : any;
+    if (canvas){
+      ctx = canvas.getContext('2d');
     }
 
+    let kayden = new Image();
+    kayden.src = kaydenFace;
 
+    drawCanvas(ctx, canvas);
+
+    ctx.drawImage(kayden, posX, startPosY, 124, 143); 
     
+    startPosY -= speed;
+    verticalCounter += speed; 
+
+    if (verticalCounter >= 116) {
+      posX += 2;
+      requestAnimationFrame(animateHorizontal); 
+    }
+    else{
+      requestAnimationFrame(animateVerticalUp); 
+    }
   }
 
   function drawCanvas(ctx: any, canvas: any) {
