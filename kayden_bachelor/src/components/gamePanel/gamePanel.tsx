@@ -10,7 +10,7 @@ export type GamePanelProps = {
   startPosY: number;
   start: boolean;
   marriagePicPosition: number;
-  linePositions: [number[],number[], number[],number[],number[]];
+  linePositions: Array<Array<number>>;
   speed: number;
 };
 
@@ -32,7 +32,7 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     if (!start) {
       ended = false;
       return true; // Exit the animation loop
-    } 
+    }
 
     let canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
     let ctx : any;
@@ -42,27 +42,26 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
 
     let kayden = new Image();
     kayden.src = kaydenFace;
-    
+
     drawCanvas(ctx, canvas);
 
     if (posX >= 1160) {
       ended = true;
-      return true; 
+      return true;
     }
 
     if (shouldKaydenMoveVertical()){
       animateVertical();
       verticalCounter = 0;
-      console.log(posX);
     }
     else{
-      
+
     }
 
     posX += speed;
-    ctx.drawImage(kayden, posX, startPosY, 124, 143); 
+    ctx.drawImage(kayden, posX, startPosY, 124, 143);
 
-    requestAnimationFrame(animateHorizontal); 
+    requestAnimationFrame(animateHorizontal);
     return false;
   }
 
@@ -86,17 +85,15 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
 
     drawCanvas(ctx, canvas);
 
-    ctx.drawImage(kayden, posX, startPosY, 124, 143); 
-    
+    ctx.drawImage(kayden, posX, startPosY, 124, 143);
+
     startPosY += speed;
-    verticalCounter += speed; 
-    console.log(verticalCounter);
-    console.log(posX);
+    verticalCounter += speed;
 
     if (verticalCounter >= 116) {
-      return; 
+      return;
     }
-    requestAnimationFrame(animateVertical); 
+    requestAnimationFrame(animateVertical);
   }
 
   function drawCanvas(ctx: any, canvas: any) {
@@ -133,10 +130,10 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     }
 
     canvas.addEventListener("click", function(event) {
-      
+
       const mouseX = event.clientX - canvas.getBoundingClientRect().left - 20;
       const mouseY = event.clientY - canvas.getBoundingClientRect().top;
-      
+
       buttons.forEach(button => {
       if (mouseX >= button.x - 4  &&
         mouseX <= button.x + 5 &&
@@ -153,18 +150,18 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     for (let y = 120; y <= 480; y += 120) {
       ctx.strokeStyle = 'black';
       ctx.beginPath();
-      ctx.moveTo(80, y);  
-      ctx.lineTo(1200, y);      
-      ctx.stroke();  
+      ctx.moveTo(80, y);
+      ctx.lineTo(1200, y);
+      ctx.stroke();
     }
   }
-  
+
   function drawVerticalLines(ctx: any){
     for (let line of linePositions){
       ctx.beginPath();
-      ctx.moveTo(line[0], line[1]);  
-      ctx.lineTo(line[0], line[1]+120);      
-      ctx.stroke();  
+      ctx.moveTo(line[0], line[1]);
+      ctx.lineTo(line[0], line[1]+120);
+      ctx.stroke();
     }
   }
 
@@ -197,10 +194,10 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
       }
     }
 
-    ctx.drawImage(marriagePic, 1300, marriagePicPosition, 98.5, 100); 
-    ctx.drawImage(brokenPic1, 1300, bp1, 114, 81); 
-    ctx.drawImage(brokenPic2, 1300, bp2, 114, 81); 
-    ctx.drawImage(brokenPic3, 1300, bp3, 114, 81); 
+    ctx.drawImage(marriagePic, 1300, marriagePicPosition, 98.5, 100);
+    ctx.drawImage(brokenPic1, 1300, bp1, 114, 81);
+    ctx.drawImage(brokenPic2, 1300, bp2, 114, 81);
+    ctx.drawImage(brokenPic3, 1300, bp3, 114, 81);
   }
 
   return (
