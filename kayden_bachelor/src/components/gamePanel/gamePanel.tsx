@@ -12,10 +12,11 @@ export type GamePanelProps = {
   marriagePicPosition: number;
   linePositions: [number[],number[], number[],number[],number[]];
   speed: number;
+  verticalCounter : number;
 };
 
-export const GamePanel = ({ className, children, startPosY, start, marriagePicPosition, linePositions, speed }: GamePanelProps) => {
-
+export const GamePanel = ({ className, children, startPosY, start, marriagePicPosition, linePositions, speed, verticalCounter }: GamePanelProps) => {
+  
   useEffect(() => {
     posX = 0;
     verticalCounter = 0;
@@ -28,7 +29,6 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
   let posX = 0 // Initial X position
   let buttons : any[] = [];
   let userButtons: any[] = [];
-  let verticalCounter = 0;
 
   function animateHorizontal(): boolean {
    /*  if (!start) {
@@ -80,14 +80,35 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
           linePositions[1][1] == 120 && linePositions[1][0] == posX +70||
           linePositions[2][1] == 120 && linePositions[2][0] == posX +70||
           linePositions[3][1] == 120 && linePositions[3][0] == posX+70||
-          linePositions[4][1] == 120 && linePositions[4][0] == posX+70)
-        return {move: true, up: false};
+          linePositions[4][1] == 120 && linePositions[4][0] == posX+70){
+            console.log('this happened first');
+            return {move: true, up: false};
+          }
         break;
       }
       case 160:{
+        if (linePositions[0][1] == 240 && linePositions[0][0] == posX +70||
+          linePositions[1][1] == 240 && linePositions[1][0] == posX +70||
+          linePositions[2][1] == 240 && linePositions[2][0] == posX +70||
+          linePositions[3][1] == 240 && linePositions[3][0] == posX+70||
+          linePositions[4][1] == 240 && linePositions[4][0] == posX+70){
+            
+            console.log('this happened');
+            return {move: true, up: false};
+          }
+          
         break;
       }
       case 280:{
+        if (linePositions[0][1] == 360 && linePositions[0][0] == posX +70||
+          linePositions[1][1] == 360 && linePositions[1][0] == posX +70||
+          linePositions[2][1] == 360 && linePositions[2][0] == posX +70||
+          linePositions[3][1] == 360 && linePositions[3][0] == posX+70||
+          linePositions[4][1] == 360 && linePositions[4][0] == posX+70){
+            console.log('this happened tooo');
+            return {move: true, up: false};
+          }
+          
         break;
       } 
     }
@@ -113,12 +134,13 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     
     startPosY += speed;
     verticalCounter += speed; 
+    startPosY += speed;
 
-    if (verticalCounter >= 120) {
+    if (verticalCounter >= 119) {
       //let difference = 120-verticalCounter;
       //startPosY += difference;
       posX += 2;
-      requestAnimationFrame(animateHorizontal); 
+      requestAnimationFrame(animateHorizontal);
     }
     else{
       requestAnimationFrame(animateVerticalDown); 
@@ -142,7 +164,7 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     startPosY -= speed;
     verticalCounter += speed; 
 
-    if (verticalCounter >= 120) {
+    if (verticalCounter >= 119) {
       //let difference = 120-verticalCounter;
       //startPosY += difference;
       posX += 2;
