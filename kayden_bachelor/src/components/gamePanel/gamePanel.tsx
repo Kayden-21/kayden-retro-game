@@ -18,22 +18,22 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
 
   useEffect(() => {
     posX = 0;
+    verticalCounter = 0;
+    //start = true;
     createButtons();
     addListener();
     animateHorizontal();
   }, []);
 
   let posX = 0 // Initial X position
-  let ended = false;
   let buttons : any[] = [];
   let userButtons: any[] = [];
   let verticalCounter = 0;
 
   function animateHorizontal(): boolean {
-    if (!start) {
-      ended = false;
+   /*  if (!start) {
       return true; // Exit the animation loop
-    } 
+    }  */
 
     let canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
     let ctx : any;
@@ -50,7 +50,6 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     
 
     if (posX >= 1160) {
-      ended = true;
       return true; 
     }
 
@@ -75,13 +74,26 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
   }
 
   function shouldKaydenMoveVertical() : any{
-    if (posX < 20 && posX >18){
-      return {move: true, up: false};
+    switch(startPosY){
+      case 40:{
+        if (linePositions[0][1] == 120 && linePositions[0][0] == posX +70||
+          linePositions[1][1] == 120 && linePositions[1][0] == posX +70||
+          linePositions[2][1] == 120 && linePositions[2][0] == posX +70||
+          linePositions[3][1] == 120 && linePositions[3][0] == posX+70||
+          linePositions[4][1] == 120 && linePositions[4][0] == posX+70)
+        return {move: true, up: false};
+        break;
+      }
+      case 160:{
+        break;
+      }
+      case 280:{
+        break;
+      } 
     }
-    else{
-      return {move: false, up: true};
-    }
-
+      
+    return {move: false, up: true};
+    
   }
 
   function animateVerticalDown() {
@@ -102,7 +114,9 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     startPosY += speed;
     verticalCounter += speed; 
 
-    if (verticalCounter >= 116) {
+    if (verticalCounter >= 120) {
+      //let difference = 120-verticalCounter;
+      //startPosY += difference;
       posX += 2;
       requestAnimationFrame(animateHorizontal); 
     }
@@ -128,7 +142,9 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     startPosY -= speed;
     verticalCounter += speed; 
 
-    if (verticalCounter >= 116) {
+    if (verticalCounter >= 120) {
+      //let difference = 120-verticalCounter;
+      //startPosY += difference;
       posX += 2;
       requestAnimationFrame(animateHorizontal); 
     }
