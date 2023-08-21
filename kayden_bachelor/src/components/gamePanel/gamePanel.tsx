@@ -74,33 +74,28 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
   }
 
   function shouldKaydenMoveVertical() : any{
-     switch(startPosY){
-      case 40:{
-        let lineI = linePositions.findIndex(line => line.start[1] == 120 && line.start[0] == posX+70 && !line.traversed);
+
+    if (startPosY >= 10 && startPosY <=70){
+      let lineI = linePositions.findIndex(line => line.start[1] == 120 && line.start[0] == posX+70 && !line.traversed);
         if( lineI != -1){
-            console.log('this happened first'); 
+            console.log('first row line ' + (posX+70) + ' ' + startPosY); 
             return {move: true, up: false, lineIndex: lineI};
            
           }
-          break;
-      }
-      case 160:{
-        let lineI = linePositions.findIndex(line => line.start[1] == 240 && line.start[0] == posX+70 && !line.traversed);
+    }
+    else if(startPosY >= 130 && startPosY <= 190){
+      let lineI = linePositions.findIndex(line => line.start[1] == 240 && line.start[0] == posX+70 && !line.traversed);
         if( lineI != -1){
-            console.log('this happened'); 
+            console.log('second row line '+ (posX+70)+ ' ' + startPosY); 
             return {move: true, up: false, lineIndex: lineI};
           }
-          break;
-      }
-          
-      case 280:{
-        let lineI = linePositions.findIndex(line => line.start[1] == 360 && line.start[0] == posX+70 && !line.traversed);
+    }
+    else if(startPosY >= 250 && startPosY <=310){
+      let lineI = linePositions.findIndex(line => line.start[1] == 360 && line.start[0] == posX+70 && !line.traversed);
         if( lineI != -1){
-            console.log('this happened tooo'); 
+            console.log('third row line '+ (posX+70)+ ' ' + startPosY); 
             return {move: true, up: false, lineIndex: lineI};
           }
-          break;
-      } 
     }
       
     return {move: false, up: true}; 
@@ -123,7 +118,6 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     
     startPosY += speed;
     verticalCounter += speed; 
-    startPosY += speed;
 
     if (verticalCounter >= 119) {
       linePositions[lineIndex].traversed = true;
@@ -171,27 +165,23 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
   function drawUserLines(ctx: any){
     for (let button of linePositions){
       ctx.fillStyle = "grey";
-      ctx.fillRect(button.start[0], button.start[1], 5, 116);
+      ctx.fillRect(button.start[0], button.start[1], 5, 120);
     }
   }
 
 
   function createButtons(){
     buttons = [];
-    let ypositions = [122, 242, 362]
+    let ypositions = [120, 240, 360]
     for (let pos of ypositions){
       for (let x = 650; x <= 1170; x += 10) {
-        buttons.push({x: x, y:pos, width: 5, height: 116});
+        buttons.push({x: x, y:pos});
       }
     }
   }
 
   function addListener(){
     let canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
-    let ctx : any;
-    if (canvas){
-      ctx = canvas.getContext('2d');
-    }
 
     canvas.addEventListener("click", function(event) {
       
