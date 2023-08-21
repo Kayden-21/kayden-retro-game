@@ -76,6 +76,7 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
   function shouldKaydenMoveVertical() : any{
 
     if (startPosY >= 10 && startPosY <=70){
+      //code to go down
       let lineI = linePositions.findIndex(line => line.start[1] == 120 && line.start[0] == posX+70 && !line.traversed);
         if( lineI != -1){
             console.log('first row line ' + (posX+70) + ' ' + startPosY); 
@@ -83,19 +84,45 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
            
           }
     }
+
+
     else if(startPosY >= 130 && startPosY <= 190){
+      //code to go down
       let lineI = linePositions.findIndex(line => line.start[1] == 240 && line.start[0] == posX+70 && !line.traversed);
         if( lineI != -1){
             console.log('second row line '+ (posX+70)+ ' ' + startPosY); 
             return {move: true, up: false, lineIndex: lineI};
           }
+          //code to go up
+          lineI = linePositions.findIndex(line => line.start[1] == 120 && line.start[0]-120 == posX-50 && !line.traversed);
+          if( lineI != -1){
+            return {move: true, up: true, lineIndex: lineI};
+          }
     }
+
     else if(startPosY >= 250 && startPosY <=310){
+      //code to go down
       let lineI = linePositions.findIndex(line => line.start[1] == 360 && line.start[0] == posX+70 && !line.traversed);
         if( lineI != -1){
-            console.log('third row line '+ (posX+70)+ ' ' + startPosY); 
+            //console.log('third row line '+ (posX+70)+ ' ' + startPosY); 
             return {move: true, up: false, lineIndex: lineI};
           }
+        //code to go up
+        console.log('third row line '+ (posX+70)+ ' ' + startPosY); 
+        lineI = linePositions.findIndex(line => line.start[1] == 240 && line.start[0]-120 == posX-50 && !line.traversed);
+        if( lineI != -1){
+          return {move: true, up: true, lineIndex: lineI};
+        }
+    }
+
+
+    else if(startPosY >= 370 && startPosY <=430){
+      //code to go up
+      let lineI = linePositions.findIndex(line => line.start[1] == 360 && line.start[0]-120 == posX-50 && !line.traversed);
+      if( lineI != -1){
+        console.log('third row line '+ (posX+70)+ ' ' + startPosY); 
+        return {move: true, up: true, lineIndex: lineI};
+      }
     }
       
     return {move: false, up: true}; 
@@ -116,7 +143,7 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
 
     ctx.drawImage(kayden, posX, startPosY, 124, 143); 
     
-    startPosY += speed;
+    
     verticalCounter += speed; 
 
     if (verticalCounter >= 119) {
@@ -124,6 +151,7 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
       requestAnimationFrame(animateHorizontal);
     }
     else{
+      startPosY += speed;
       requestAnimationFrame(() => animateVerticalDown(lineIndex)); 
     }
   }
@@ -142,7 +170,6 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
 
     ctx.drawImage(kayden, posX, startPosY, 124, 143); 
     
-    startPosY -= speed;
     verticalCounter += speed; 
 
     if (verticalCounter >= 119) {
@@ -150,6 +177,7 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
       requestAnimationFrame(animateHorizontal); 
     }
     else{
+      startPosY -= speed;
       requestAnimationFrame(() => animateVerticalUp(lineIndex)); 
     }
   }
