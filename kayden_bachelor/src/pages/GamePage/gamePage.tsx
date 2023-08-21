@@ -19,7 +19,7 @@ export const GamePage = () => {
   return (
     <MainLayout>
       <TopPanel heading="The Bachelor: Kayden Edition" />
-      <GamePanel verticalCounter={0} className="" startPosY={40} start= {true} marriagePicPosition={60} speed={1} linePositions={[[250,120],[350,240],[400,360],[600,120],[300,240]]}>
+      <GamePanel verticalCounter={0} className="" startPosY={40} start= {true} marriagePicPosition={60} speed={1} linePositions={[{start: [250,120], traversed: false},{start:[350,240], traversed: false},{start: [400,360], traversed: false},{start: [600,120], traversed: false},{start:[300,240], traversed: false}]}>
       </GamePanel>
     </MainLayout>
   );

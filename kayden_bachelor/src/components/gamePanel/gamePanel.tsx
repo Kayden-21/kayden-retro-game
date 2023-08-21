@@ -10,7 +10,7 @@ export type GamePanelProps = {
   startPosY: number;
   start: boolean;
   marriagePicPosition: number;
-  linePositions: [number[],number[], number[],number[],number[]];
+  linePositions: any[];
   speed: number;
   verticalCounter : number;
 };
@@ -28,7 +28,6 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
 
   let posX = 0 // Initial X position
   let buttons : any[] = [];
-  let userButtons: any[] = [];
 
   function animateHorizontal(): boolean {
    /*  if (!start) {
@@ -57,11 +56,12 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     
 
     if (movements.move){
+      let lineIndex = movements.lineIndex;
       if (movements.up){
-        animateVerticalUp();
+        animateVerticalUp(lineIndex);
       }
       else{
-        animateVerticalDown();
+        animateVerticalDown(lineIndex);
       }
       verticalCounter = 0;
     }
@@ -74,50 +74,39 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
   }
 
   function shouldKaydenMoveVertical() : any{
-    switch(startPosY){
+     switch(startPosY){
       case 40:{
-        if (linePositions[0][1] == 120 && linePositions[0][0] == posX +70||
-          linePositions[1][1] == 120 && linePositions[1][0] == posX +70||
-          linePositions[2][1] == 120 && linePositions[2][0] == posX +70||
-          linePositions[3][1] == 120 && linePositions[3][0] == posX+70||
-          linePositions[4][1] == 120 && linePositions[4][0] == posX+70){
-            console.log('this happened first');
-            return {move: true, up: false};
+        let lineI = linePositions.findIndex(line => line.start[1] == 120 && line.start[0] == posX+70 && !line.traversed);
+        if( lineI != -1){
+            console.log('this happened first'); 
+            return {move: true, up: false, lineIndex: lineI};
+           
           }
-        break;
+          break;
       }
       case 160:{
-        if (linePositions[0][1] == 240 && linePositions[0][0] == posX +70||
-          linePositions[1][1] == 240 && linePositions[1][0] == posX +70||
-          linePositions[2][1] == 240 && linePositions[2][0] == posX +70||
-          linePositions[3][1] == 240 && linePositions[3][0] == posX+70||
-          linePositions[4][1] == 240 && linePositions[4][0] == posX+70){
-            
-            console.log('this happened');
-            return {move: true, up: false};
+        let lineI = linePositions.findIndex(line => line.start[1] == 240 && line.start[0] == posX+70 && !line.traversed);
+        if( lineI != -1){
+            console.log('this happened'); 
+            return {move: true, up: false, lineIndex: lineI};
           }
-          
-        break;
+          break;
       }
-      case 280:{
-        if (linePositions[0][1] == 360 && linePositions[0][0] == posX +70||
-          linePositions[1][1] == 360 && linePositions[1][0] == posX +70||
-          linePositions[2][1] == 360 && linePositions[2][0] == posX +70||
-          linePositions[3][1] == 360 && linePositions[3][0] == posX+70||
-          linePositions[4][1] == 360 && linePositions[4][0] == posX+70){
-            console.log('this happened tooo');
-            return {move: true, up: false};
-          }
           
-        break;
+      case 280:{
+        let lineI = linePositions.findIndex(line => line.start[1] == 360 && line.start[0] == posX+70 && !line.traversed);
+        if( lineI != -1){
+            console.log('this happened tooo'); 
+            return {move: true, up: false, lineIndex: lineI};
+          }
+          break;
       } 
     }
       
-    return {move: false, up: true};
-    
+    return {move: false, up: true}; 
   }
 
-  function animateVerticalDown() {
+  function animateVerticalDown(lineIndex: number) {
 
     let canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
     let ctx : any;
@@ -137,17 +126,15 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     startPosY += speed;
 
     if (verticalCounter >= 119) {
-      //let difference = 120-verticalCounter;
-      //startPosY += difference;
-      posX += 2;
+      linePositions[lineIndex].traversed = true;
       requestAnimationFrame(animateHorizontal);
     }
     else{
-      requestAnimationFrame(animateVerticalDown); 
+      requestAnimationFrame(() => animateVerticalDown(lineIndex)); 
     }
   }
 
-  function animateVerticalUp(){
+  function animateVerticalUp(lineIndex: number){
     let canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
     let ctx : any;
     if (canvas){
@@ -165,13 +152,11 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
     verticalCounter += speed; 
 
     if (verticalCounter >= 119) {
-      //let difference = 120-verticalCounter;
-      //startPosY += difference;
-      posX += 2;
+      linePositions[lineIndex].traversed = true;
       requestAnimationFrame(animateHorizontal); 
     }
     else{
-      requestAnimationFrame(animateVerticalUp); 
+      requestAnimationFrame(() => animateVerticalUp(lineIndex)); 
     }
   }
 
@@ -184,9 +169,9 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
   }
 
   function drawUserLines(ctx: any){
-    for (let button of userButtons){
-      ctx.fillStyle = "black";
-      ctx.fillRect(button.x, button.y, 5, 116);
+    for (let button of linePositions){
+      ctx.fillStyle = "grey";
+      ctx.fillRect(button.start[0], button.start[1], 5, 116);
     }
   }
 
@@ -219,7 +204,7 @@ export const GamePanel = ({ className, children, startPosY, start, marriagePicPo
         mouseY >= button.y &&
         mouseY <= button.y + 116
       ) {
-        userButtons.push({x: button.x, y:button.y, width: 5, height: 116});
+        linePositions.push({start: [button.x, button.y], traversed: false});
       }
       });
     });
