@@ -66,97 +66,90 @@ export const GamePanel = ({
 
     let movements = shouldKaydenMoveVertical();
 
-    if (movements.move) {
-      let lineIndex = movements.lineIndex;
-      if (movements.up) {
-        animateVerticalUp(lineIndex);
-      } else {
-        animateVerticalDown(lineIndex);
+    if (movements.move && !linePositions[movements.lineIndex].traversed) {
+      console.log(movements)
+      if (movements.up === true) {
+        moveUpCorrect(movements.lineIndex);
+      }else{
+        moveDownCorrect(movements.lineIndex);
       }
-      verticalCounter = 0;
+      // if(movements.up === true){
+      //   // animateVerticalUp(movements.lineIndex);
+      // }
     } else {
       posX += speed;
       requestAnimationFrame(animateHorizontal);
     }
 
+    // posX += speed;
+    // requestAnimationFrame(animateHorizontal);
     return false;
   }
 
-  function shouldKaydenMoveVertical(): any {
+  function moveUpCorrect(index: number) {
+    drawKaydenOnCanvas();
 
-    if (startPosY >= 10 && startPosY <= 70) {
-      //code to go down
-      let lineI = linePositions.findIndex(line => line.start[1] == 120 && line.start[0] == posX + 70 && !line.traversed);
-      if (lineI != -1) {
-        console.log('first row line ' + (posX + 70) + ' ' + startPosY);
-        return {move: true, up: false, lineIndex: lineI};
-
-      }
-    } else if (startPosY >= 130 && startPosY <= 190) {
-      //code to go down
-      let lineI = linePositions.findIndex(line => line.start[1] == 240 && line.start[0] == posX + 70 && !line.traversed);
-      if (lineI != -1) {
-        console.log('second row line ' + (posX + 70) + ' ' + startPosY);
-        return {move: true, up: false, lineIndex: lineI};
-      }
-      //code to go up
-      lineI = linePositions.findIndex(line => line.start[1] == 120 && line.start[0] - 120 == posX - 50 && !line.traversed);
-      if (lineI != -1) {
-        return {move: true, up: true, lineIndex: lineI};
-      }
-    } else if (startPosY >= 250 && startPosY <= 310) {
-      //code to go down
-      let lineI = linePositions.findIndex(line => line.start[1] == 360 && line.start[0] == posX + 70 && !line.traversed);
-      if (lineI != -1) {
-        //console.log('third row line '+ (posX+70)+ ' ' + startPosY);
-        return {move: true, up: false, lineIndex: lineI};
-      }
-      //code to go up
-      console.log('third row line ' + (posX + 70) + ' ' + startPosY);
-      lineI = linePositions.findIndex(line => line.start[1] == 240 && line.start[0] - 120 == posX - 50 && !line.traversed);
-      if (lineI != -1) {
-        return {move: true, up: true, lineIndex: lineI};
-      }
-    } else if (startPosY >= 370 && startPosY <= 430) {
-      //code to go up
-      let lineI = linePositions.findIndex(line => line.start[1] == 360 && line.start[0] - 120 == posX - 50 && !line.traversed);
-      if (lineI != -1) {
-        console.log('third row line ' + (posX + 70) + ' ' + startPosY);
-        return {move: true, up: true, lineIndex: lineI};
-      }
-    }
-
-    return {move: false, up: true};
-  }
-
-  function animateVerticalDown(lineIndex: number) {
-
-    drawKaydenOnCanvas()
-
-    verticalCounter += speed;
-
-    if (verticalCounter >= 119) {
-      linePositions[lineIndex].traversed = true;
-      requestAnimationFrame(animateHorizontal);
-    } else {
-      startPosY += speed;
-      requestAnimationFrame(() => animateVerticalDown(lineIndex));
-    }
-  }
-
-  function animateVerticalUp(lineIndex: number) {
-
-    drawKaydenOnCanvas()
-
-    verticalCounter += speed;
-
-    if (verticalCounter >= 119) {
-      linePositions[lineIndex].traversed = true;
-      requestAnimationFrame(animateHorizontal);
-    } else {
+    if ((startPosY + CONSTANTS.KAYDEN_IMAGE_CENTER_LENGTH) > linePositions[index].start[1]) {
       startPosY -= speed;
-      requestAnimationFrame(() => animateVerticalUp(lineIndex));
+      requestAnimationFrame(() => moveUpCorrect(index));
+    } else {
+      linePositions[index].traversed = true;
+      requestAnimationFrame(animateHorizontal);
     }
+  }
+
+  function moveDownCorrect(index: number) {
+    drawKaydenOnCanvas();
+
+    if ((startPosY + CONSTANTS.KAYDEN_IMAGE_CENTER_LENGTH) < (linePositions[index].start[1] + 120)) {
+      startPosY += speed;
+      requestAnimationFrame(() => moveDownCorrect(index));
+    } else {
+      linePositions[index].traversed = true;
+      requestAnimationFrame(animateHorizontal);
+    }
+  }
+
+  function shouldKaydenMoveVertical(): any {
+    let foundLineIndex = linePositions.findIndex((line) => {
+      if ((posX + 70) === line.start[0] && !line.traversed) {
+        return true;
+      }
+    })
+
+    if (linePositions[foundLineIndex]) {
+      switch (startPosY + CONSTANTS.KAYDEN_IMAGE_CENTER_LENGTH) {
+        case 120:
+          if (linePositions[foundLineIndex].start[1] === 120) {
+            return {move: true, up: false, lineIndex: foundLineIndex}
+          }
+          break;
+        case 240:
+          if (linePositions[foundLineIndex].start[1] === 120) {
+
+            return {move: true, up: true, lineIndex: foundLineIndex}
+          } else if (linePositions[foundLineIndex].start[1] === 240) {
+
+            return {move: true, up: false, lineIndex: foundLineIndex}
+          }
+          break;
+        case 360:
+          if (linePositions[foundLineIndex].start[1] === 240) {
+
+            return {move: true, up: true, lineIndex: foundLineIndex}
+          } else if (linePositions[foundLineIndex].start[1] === 360) {
+
+            return {move: true, up: false, lineIndex: foundLineIndex}
+          }
+          break;
+        case 480:
+          if (linePositions[foundLineIndex].start[1] === 360) {
+            return {move: true, up: true, lineIndex: foundLineIndex}
+          }
+          break;
+      }
+    }
+    return {move: false, up: true};
   }
 
   function drawCanvas(ctx: any, canvas: any) {

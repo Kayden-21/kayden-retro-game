@@ -29,7 +29,6 @@ export const GamePage = () => {
           <p>Lead him to his wedding</p>
           <button className={'ready-button'} onClick={async () => {
             await gameHandler.initializeGame(true);
-            console.log(gameHandler.state.startPosition);
             setStartGame(true);
           }}>Ready?
           </button>

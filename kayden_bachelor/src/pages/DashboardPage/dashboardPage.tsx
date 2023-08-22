@@ -10,7 +10,6 @@ import {CONSTANTS} from "../../constants";
 export const DashboardPage = () => {
 
   useEffect(() => {
-    console.log('DASHBOARD RUNS ONCE')
   }, []);
   return (
     <MainLayout>
