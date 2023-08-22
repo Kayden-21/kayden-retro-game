@@ -8,7 +8,7 @@ export class GameHandler {
     this.state = CONSTANTS.DEFAULT_STATE;
   }
 
-  async initializeGame(newGame: boolean):Promise<void> {
+  async initializeGame(newGame: boolean): Promise<void> {
     if (newGame) {
 
       this.randomInitializationForNewGame(this.state);
@@ -30,26 +30,30 @@ export class GameHandler {
     }
   }
 
-  randomInitializationForNewGame(gameState: StateType){
+  randomInitializationForNewGame(gameState: StateType) {
     gameState = this.randomizeLines(gameState);
     gameState = this.randomizeStartPosition(gameState)
     gameState = this.randomizeMarriageImagePosition(gameState)
     this.state = gameState;
   }
 
-  randomizeLines(defaultState: StateType):StateType {
+  randomizeLines(defaultState: StateType): StateType {
     for (let lineNumber = 0; lineNumber < CONSTANTS.NUMBER_OF_RANDOMIZED_LINES; lineNumber++) {
-      defaultState.linePositions.push([Math.floor((Math.random() * 500) + 100), CONSTANTS.POSSIBLE_LINE_Y_POSITIONS[Math.floor(Math.random() * 3)]]);
+
+      defaultState.linePositions.push({
+        start: [Math.floor((Math.random() * 500) + 100), CONSTANTS.POSSIBLE_LINE_Y_POSITIONS[Math.floor(Math.random() * 3)]],
+        traversed: false
+      });
     }
     return defaultState;
   };
 
-  randomizeStartPosition(defaultState: StateType):StateType{
+  randomizeStartPosition(defaultState: StateType): StateType {
     defaultState.startPosition = CONSTANTS.POSSIBLE_LINE_Y_POSITIONS[Math.floor(Math.random() * 3)] - CONSTANTS.KAYDEN_IMAGE_CENTER_LENGTH;
     return defaultState;
   }
 
-  randomizeMarriageImagePosition(defaultState: StateType):StateType{
+  randomizeMarriageImagePosition(defaultState: StateType): StateType {
     defaultState.marriageImagePosition = CONSTANTS.MARRIAGE_IMAGE_POSSIBLE_POSITIONS[Math.floor(Math.random() * 4)];
     return defaultState;
   }
