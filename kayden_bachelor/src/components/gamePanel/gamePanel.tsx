@@ -67,10 +67,9 @@ export const GamePanel = ({
     let movements = shouldKaydenMoveVertical();
 
     if (movements.move && !linePositions[movements.lineIndex].traversed) {
-      console.log(movements)
       if (movements.up === true) {
         moveUpCorrect(movements.lineIndex);
-      }else{
+      } else {
         moveDownCorrect(movements.lineIndex);
       }
       // if(movements.up === true){
@@ -90,7 +89,13 @@ export const GamePanel = ({
     drawKaydenOnCanvas();
 
     if ((startPosY + CONSTANTS.KAYDEN_IMAGE_CENTER_LENGTH) > linePositions[index].start[1]) {
-      startPosY -= speed;
+      let overStepCalculation = (startPosY + CONSTANTS.KAYDEN_IMAGE_CENTER_LENGTH) - speed
+      if (overStepCalculation < (linePositions[index].start[1])) {
+        startPosY -= (startPosY + CONSTANTS.KAYDEN_IMAGE_CENTER_LENGTH) - (linePositions[index].start[1])
+      } else {
+        startPosY -= speed;
+      }
+
       requestAnimationFrame(() => moveUpCorrect(index));
     } else {
       linePositions[index].traversed = true;
@@ -102,7 +107,12 @@ export const GamePanel = ({
     drawKaydenOnCanvas();
 
     if ((startPosY + CONSTANTS.KAYDEN_IMAGE_CENTER_LENGTH) < (linePositions[index].start[1] + 120)) {
-      startPosY += speed;
+      let overStepCalculation = (startPosY + CONSTANTS.KAYDEN_IMAGE_CENTER_LENGTH) + speed
+      if (overStepCalculation > (linePositions[index].start[1] + 120)) {
+        startPosY += (linePositions[index].start[1] + 120) - (startPosY + CONSTANTS.KAYDEN_IMAGE_CENTER_LENGTH)
+      } else {
+        startPosY += speed;
+      }
       requestAnimationFrame(() => moveDownCorrect(index));
     } else {
       linePositions[index].traversed = true;
@@ -112,7 +122,8 @@ export const GamePanel = ({
 
   function shouldKaydenMoveVertical(): any {
     let foundLineIndex = linePositions.findIndex((line) => {
-      if ((posX + 70) === line.start[0] && !line.traversed) {
+      let absoluteCheck = Math.abs((posX + 70) - line.start[0]);
+      if (absoluteCheck <= speed && !line.traversed) {
         return true;
       }
     })
@@ -121,6 +132,7 @@ export const GamePanel = ({
       switch (startPosY + CONSTANTS.KAYDEN_IMAGE_CENTER_LENGTH) {
         case 120:
           if (linePositions[foundLineIndex].start[1] === 120) {
+
             return {move: true, up: false, lineIndex: foundLineIndex}
           }
           break;
