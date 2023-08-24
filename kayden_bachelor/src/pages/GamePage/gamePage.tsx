@@ -36,8 +36,7 @@ export const GamePage = () => {
         </section>
         :
 
-        <GamePanel verticalCounter={0} className="" startPosY={gameHandler.state.startPosition} start={true} marriagePicPosition={gameHandler.state.marriageImagePosition} speed={gameHandler.state.level}
-                   linePositions={gameHandler.state.linePositions}>
+        <GamePanel className="" gameHandler={gameHandler} >
         </GamePanel>
       }
     </MainLayout>

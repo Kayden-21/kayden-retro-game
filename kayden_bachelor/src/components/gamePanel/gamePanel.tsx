@@ -1,42 +1,42 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import "./gamePanel.css";
 import kaydenFace from "../../assets/images/kaydenFace.png";
 import marriage from "../../assets/images/marriage.png";
 import brokenHome from "../../assets/images/brokenHome.png";
 import {CONSTANTS} from "../../constants";
+import {GameHandler} from "../../utilities/gameHandler";
+import {useNavigate} from "react-router-dom";
+
 
 export type GamePanelProps = {
   className?: string;
   children?: React.ReactNode;
-  startPosY: number;
-  start: boolean;
-  marriagePicPosition: number;
-  linePositions: any[];
-  speed: number;
-  verticalCounter: number;
+  gameHandler: GameHandler;
 };
 
 export const GamePanel = ({
                             className,
-                            children,
-                            startPosY,
-                            marriagePicPosition,
-                            linePositions,
-                            speed,
-                            verticalCounter
+                            gameHandler,
                           }: GamePanelProps) => {
+
+  const navigate = useNavigate();
+  const [speed, setSpeed] = useState(gameHandler.state.level);
+  let startPosY: number;
+  let linePositions: any;
+  let marriagePicPosition: number;
+  let buttons: any[];
+  let posX: number;
 
   useEffect(() => {
     posX = 0;
-    verticalCounter = 0;
-    //start = true;
+    startPosY = gameHandler.state.startPosition;
+    linePositions = gameHandler.state.linePositions;
+    marriagePicPosition = gameHandler.state.marriageImagePosition;
+    buttons = [];
     createButtons();
     addListener();
     animateHorizontal();
-  }, []);
-
-  let posX = 0 // Initial X position
-  let buttons: any[] = [];
+  }, [speed]);
 
   function drawKaydenOnCanvas() {
     let canvas = document.getElementById('gameCanvas') as HTMLCanvasElement;
@@ -51,6 +51,10 @@ export const GamePanel = ({
       drawCanvas(ctx, canvas);
 
       if (ctx) {
+        ctx.font = "40px Aerial";
+        ctx.fillText(`Level: ${gameHandler.state.level}`,30,30,100);
+        ctx.fillText(`Score: ${gameHandler.state.level - 1}`,1300,30,100);
+
         ctx.drawImage(kayden, posX, startPosY, CONSTANTS.KAYDEN_HEAD_SIZE.WIDTH, CONSTANTS.KAYDEN_HEAD_SIZE.HEIGHT);
       }
     }
@@ -61,6 +65,7 @@ export const GamePanel = ({
     drawKaydenOnCanvas();
 
     if (posX >= 1160) {
+      nextLevelCheck();
       return true;
     }
 
@@ -72,17 +77,23 @@ export const GamePanel = ({
       } else {
         moveDownCorrect(movements.lineIndex);
       }
-      // if(movements.up === true){
-      //   // animateVerticalUp(movements.lineIndex);
-      // }
+
     } else {
       posX += speed;
       requestAnimationFrame(animateHorizontal);
     }
 
-    // posX += speed;
-    // requestAnimationFrame(animateHorizontal);
     return false;
+  }
+
+  function nextLevelCheck() {
+    if ((startPosY + CONSTANTS.KAYDEN_IMAGE_CENTER_LENGTH) === (marriagePicPosition + 60)) {
+      setSpeed(gameHandler.nextLevel());
+      console.log('Next level');
+    } else {
+      navigate('/results', {state:{score: gameHandler.state.level -1}})
+      console.log('YOU LOSE')
+    }
   }
 
   function moveUpCorrect(index: number) {
@@ -121,7 +132,7 @@ export const GamePanel = ({
   }
 
   function shouldKaydenMoveVertical(): any {
-    let foundLineIndex = linePositions.findIndex((line) => {
+    let foundLineIndex = linePositions.findIndex((line: { start: number[]; traversed: any; }) => {
       let absoluteCheck = Math.abs((posX + 70) - line.start[0]);
       if (absoluteCheck <= speed && !line.traversed) {
         return true;
@@ -239,35 +250,34 @@ export const GamePanel = ({
     let brokenPic3 = new Image();
     brokenPic3.src = brokenHome;
 
-    let bp1 = 190;
-    let bp2 = 320;
-    let bp3 = 450;
+    let bp1 = 180;
+    let bp2 = 300;
+    let bp3 = 420;
 
     switch (marriagePicPosition) {
-      case 450 : {
+      case 420 : {
         bp3 = 60
         break;
       }
-      case 190 : {
+      case 180 : {
         bp1 = 60;
         break;
       }
-      case 320 : {
+      case 300 : {
         bp2 = 60
         break;
       }
     }
 
-    ctx.drawImage(marriagePic, 1300, marriagePicPosition, 98.5, 100);
-    ctx.drawImage(brokenPic1, 1300, bp1, 114, 81);
-    ctx.drawImage(brokenPic2, 1300, bp2, 114, 81);
-    ctx.drawImage(brokenPic3, 1300, bp3, 114, 81);
+    ctx.drawImage(marriagePic, 1250, marriagePicPosition, 100, 100);
+    ctx.drawImage(brokenPic1, 1250, bp1, 100, 100);
+    ctx.drawImage(brokenPic2, 1250, bp2, 100, 100);
+    ctx.drawImage(brokenPic3, 1250, bp3, 100, 100);
   }
 
   return (
     <section className={className ? className : "gamePanel"}>
       <canvas width="1500" height="600" id="gameCanvas" className="canvas"></canvas>
-      {children}
     </section>
   );
 };

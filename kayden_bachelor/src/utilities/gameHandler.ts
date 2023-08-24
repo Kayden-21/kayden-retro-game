@@ -57,5 +57,13 @@ export class GameHandler {
     defaultState.marriageImagePosition = CONSTANTS.MARRIAGE_IMAGE_POSSIBLE_POSITIONS[Math.floor(Math.random() * 4)];
     return defaultState;
   }
+
+  nextLevel(){
+    this.state.level += 1;
+    this.state.linePositions = [];
+    console.log(this.state.linePositions);
+    this.randomInitializationForNewGame(this.state);
+    return this.state.level;
+  }
 }
 
