@@ -1,17 +1,44 @@
-import React from "react";
+import React, {useState} from "react";
 import "../../assets/css/main.css";
-import { MainLayout } from "../../components/baseLayout/baseLayout";
-import { TopPanel } from "../../components/topPanel/topPanel";
-import { BodyPanel } from "../../components/bodyPanel/bodyPanel";
+import "./gamePage.css";
+import {MainLayout} from "../../components/baseLayout/baseLayout";
+import {TopPanel} from "../../components/topPanel/topPanel";
+import {GamePanel} from "../../components/gamePanel/gamePanel";
+import {CONSTANTS} from "../../constants";
+import KAYDEN_FACE from '../../assets/images/kaydenFace.png';
+import MARRIAGE from "../../assets/images/marriage.png";
+import {GameHandler} from "../../utilities/gameHandler";
+
 
 export const GamePage = () => {
+
+  const [startGame, setStartGame] = useState<Boolean>(false);
+  let gameHandler: GameHandler = new GameHandler();
+
   return (
     <MainLayout>
-      <TopPanel heading="The Bachelor: Kayden Edition" />
-      <BodyPanel className="">
-        {/* add the game thingy here */}
-        {/* ...can also pass in your own classname for the panel to make the panel bigger or whatever you want */}
-      </BodyPanel>
+      <TopPanel heading={CONSTANTS.MAIN_HEADING}/>
+      {!startGame ?
+        <section className={'tutorial-section'}>
+          <h2>Help Kayden</h2>
+          <h3>This is Kayden and his wedding</h3>
+          <section className={'image-holder'}>
+            <img alt={'face of sauve and sophisticated kayden'} src={KAYDEN_FACE}/>
+            <img alt={'picture of two people getting married'} src={MARRIAGE}/>
+          </section>
+          <p>Lead him to his wedding</p>
+          <button className={'ready-button'} onClick={async () => {
+            await gameHandler.initializeGame(true);
+            setStartGame(true);
+          }}>Ready?
+          </button>
+
+        </section>
+        :
+
+        <GamePanel className="" gameHandler={gameHandler} >
+        </GamePanel>
+      }
     </MainLayout>
   );
 };
