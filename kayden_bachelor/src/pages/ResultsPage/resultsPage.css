@@ -1,0 +1,39 @@
+.kaydenImage {
+    object-fit: contain;
+    max-width: 100%;
+    position: fixed;
+    height: 100%;
+}
+
+.results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    gap: 10px
+}
+
+.userInteraction {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 8px;
+    width: 100%;
+}
+
+.resultsHeading {
+    font-size: 3rem;
+    color: black;
+}
+
+.playAgain, .scoreBoard {
+    width: 350px;
+    height: 150px;
+    font-size: 40px;
+}
+
+.scoreBoard {
+    background-color: rgba(255, 0, 0, 0.58);
+    color: rgba(0, 0, 0, 0.51);
+}
