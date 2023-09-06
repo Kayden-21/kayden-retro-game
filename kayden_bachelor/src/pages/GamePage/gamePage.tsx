@@ -8,11 +8,13 @@ import {CONSTANTS} from "../../constants";
 import KAYDEN_FACE from '../../assets/images/kaydenFace.png';
 import MARRIAGE from "../../assets/images/marriage.png";
 import {GameHandler} from "../../utilities/gameHandler";
+import {useLocation} from "react-router-dom";
 
 
 export const GamePage = () => {
 
   const [startGame, setStartGame] = useState<Boolean>(false);
+  const {state} = useLocation();
   let gameHandler: GameHandler = new GameHandler();
 
   return (
@@ -28,15 +30,17 @@ export const GamePage = () => {
           </section>
           <p>Lead him to his wedding</p>
           <button className={'ready-button'} onClick={async () => {
-            await gameHandler.initializeGame(true);
-            setStartGame(true);
+            await gameHandler.initializeGame(state.newGame);
+            if(gameHandler.state.linePositions.length !== 0) {
+              setStartGame(true);
+            }
           }}>Ready?
           </button>
 
         </section>
         :
 
-        <GamePanel className="" gameHandler={gameHandler} >
+        <GamePanel className="" gameHandler={gameHandler}>
         </GamePanel>
       }
     </MainLayout>

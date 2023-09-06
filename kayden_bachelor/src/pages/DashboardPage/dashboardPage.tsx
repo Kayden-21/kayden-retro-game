@@ -19,6 +19,7 @@ export const DashboardPage = () => {
           leftChildren={<img src={kayden} alt="Kayden" />}
           rightChildrenText1="Play (with rizz)"
           rightChildrenText2="Scoreboard"
+          rightChildrenText3="Continue"
         />
       </BodyPanel>
     </MainLayout>

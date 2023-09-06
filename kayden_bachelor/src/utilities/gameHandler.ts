@@ -1,6 +1,7 @@
-import {getData} from "./db";
+import {deleteData, getData, putData} from "./db";
 import {CONSTANTS, StateType} from "../constants";
 
+//TODO: Replace the "state" key for the DB with {userAuth}_State so that it is user specific.
 export class GameHandler {
   state: StateType;
 
@@ -11,23 +12,38 @@ export class GameHandler {
   async initializeGame(newGame: boolean): Promise<void> {
     if (newGame) {
 
+      this.clearPossibleValuesInState()
       this.randomInitializationForNewGame(this.state);
     } else {
-
       try {
         let fetchedStateFromDb = await getData("state");
 
         if (!fetchedStateFromDb) {
 
+          this.clearPossibleValuesInState()
           this.randomInitializationForNewGame(this.state);
+        }else{
+          this.loadFromPreviousSave(fetchedStateFromDb);
         }
-
-        this.state = fetchedStateFromDb;
       } catch (error) {
 
+        this.clearPossibleValuesInState()
         this.randomInitializationForNewGame(this.state);
       }
     }
+  }
+
+  clearPossibleValuesInState(){
+    this.state.linePositions = [];
+    this.state.score = 0;
+    this.state.level = 1
+  }
+  loadFromPreviousSave(fetchedStateFromDb:any){
+    this.state.level = fetchedStateFromDb.level;
+    this.state.linePositions = fetchedStateFromDb.linePositions;
+    this.state.startPosition = fetchedStateFromDb.startPosition;
+    this.state.marriageImagePosition = fetchedStateFromDb.marriageImagePosition;
+    this.state.score = fetchedStateFromDb.score;
   }
 
   randomInitializationForNewGame(gameState: StateType) {
@@ -58,11 +74,29 @@ export class GameHandler {
     return defaultState;
   }
 
-  nextLevel(){
+  async saveState(){
+    try{
+      await putData("state", this.state)
+    }catch (error){
+      console.log(`Failed saving of state ${error}`);
+    }
+  }
+
+  async gameOver(): Promise<void> {
+    try{
+      //TODO: Add scoreboard saving method here. Need to create a way to store the 10 possible values with the users auth.
+      await deleteData("state")
+    }catch (error){
+      console.log(`Failed deleting of state ${error}`);
+    }
+  }
+
+  nextLevel(): number{
     this.state.level += 1;
     this.state.linePositions = [];
     console.log(this.state.linePositions);
     this.randomInitializationForNewGame(this.state);
+    this.saveState()
     return this.state.level;
   }
 }
