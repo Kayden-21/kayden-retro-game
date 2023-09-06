@@ -1,27 +1,41 @@
 import React from "react";
 import "../../assets/css/main.css";
+import "../../components/loginForm/loginForm.css";
+import "./resultsPage.css";
+import KaydenRejected from "../../assets/images/KaydenRejected.png";
 import {MainLayout} from "../../components/baseLayout/baseLayout";
 import {TopPanel} from "../../components/topPanel/topPanel";
 import {BodyPanel} from "../../components/bodyPanel/bodyPanel";
 import {CONSTANTS} from "../../constants";
-import {useLocation} from "react-router-dom";
-
+import {useLocation, useNavigate} from "react-router-dom";
 
 
 export const ResultsPage = () => {
   const {state} = useLocation();
+  const navigate = useNavigate();
 
   return (
     <MainLayout>
       <TopPanel heading={CONSTANTS.MAIN_HEADING}/>
+      <img className={"kaydenImage"} src={KaydenRejected} alt={"This is Kayden rejecting you."}/>
+
       <BodyPanel className="">
-        <h2>YOU GOT REJECTED</h2>
-        {state?.score >= 0 &&
+        <section className={"results"}>
+          {state?.score >= 0 &&
 
-          <h3>{`This is your score: ${state.score}`}</h3>
-        }
-        <a href={'/play'}>Play again</a>
-
+            <h2 className={"resultsHeading"}>{`You got rejected, with a Rizz score of: ${state.score}`}</h2>
+          }
+          <article className={"userInteraction"}>
+            <button className={"playAgain"} onClick={() => {
+              navigate("/play", {state: {newGame: true}})
+            }}>Play again?
+            </button>
+            <button className={"scoreBoard"} onClick={() => {
+              navigate("/scoreboard")
+            }}>Scoreboard
+            </button>
+          </article>
+        </section>
       </BodyPanel>
     </MainLayout>
   );
