@@ -90,8 +90,9 @@ export const GamePanel = ({
     if ((startPosY + CONSTANTS.KAYDEN_IMAGE_CENTER_LENGTH) === (marriagePicPosition + 60)) {
       setSpeed(gameHandler.nextLevel());
     } else {
+      gameHandler.state.score = gameHandler.state.level - 1
       gameHandler.gameOver();
-      navigate('/results', {state:{score: gameHandler.state.level -1}})
+      navigate('/results', {state:{score: gameHandler.state.level - 1}})
     }
   }
 

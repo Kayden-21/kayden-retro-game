@@ -84,7 +84,14 @@ export class GameHandler {
 
   async gameOver(): Promise<void> {
     try{
-      //TODO: Add scoreboard saving method here. Need to create a way to store the 10 possible values with the users auth.
+      let existingData: StateType[] = await getData("username");
+      console.log(this.state.score);
+      if (existingData) {
+        existingData.push(this.state);
+      } else {
+        existingData = [this.state];
+      }
+      await putData("username", existingData);
       await deleteData("state")
     }catch (error){
       console.log(`Failed deleting of state ${error}`);

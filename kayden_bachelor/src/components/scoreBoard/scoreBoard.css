@@ -1,0 +1,67 @@
+.scoreboard {
+  display: grid;
+  gap: 10px;
+  max-height: 90%; /* Set a maximum height for the scoreboard container */
+  overflow-y: auto; /* Enable vertical scrolling when content exceeds max height */
+}
+
+.scoreboard-latestScore {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-items: center;
+  padding: 10px;
+  font-size: 50px;
+  background-color: #F6F6F8;
+  width: 70%; /* Adjust the width as needed */
+  margin: 0 auto; /* Center the section horizontally */
+}
+
+.scoreboard-header {
+  display: grid;
+  grid-template-columns: 0.9fr 3.1fr 1.8fr;
+  align-items: center;
+  padding: 10px;
+  font-size: 35px;
+  position: sticky;
+  top: 0; /* Stick the header to the top of the scrolling container */
+  z-index: 1; /* Ensure the header is above the scrolling content */
+  background-color: #F6F6F8;
+}
+
+.header-label {
+  text-align: center;
+}
+
+.scoreboard-entry {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 0.5fr;
+  align-items: center;
+  padding: 10px;
+  padding-left: 50px;
+  background-color: white;
+  font-size: 25px;
+}
+
+.highlighted-entry {
+  background-color: #ffaab3a9; /* Define the background color for highlighted entry */
+}
+
+img {
+  max-width: 40px;
+  height: auto;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  margin-bottom: 20px; /* Add some margin for spacing */
+}
+
+.button-container button:active {
+  background-color: #b7000091; /* Change background color on click */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box shadow on click */
+  text-decoration: none; /* Remove text underline on click */
+  outline: none; /* Remove button outline on click */
+}
