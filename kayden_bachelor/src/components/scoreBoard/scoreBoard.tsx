@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import kayden from "../../assets/images/kayden.png";
-import heart from "../../assets/images/heart.png";
 import "./scoreBoard.css";
 import { getData } from "../../utilities/db";
 import { useNavigate } from "react-router-dom";
@@ -16,25 +14,6 @@ type scoreInfo = {
   username: string;
   score: number;
 }
-
-const gameLogData = [
-  { position: 0, profilePhoto: heart, username: "User1", score: 32 },
-  { position: 0, profilePhoto: kayden, username: "User2", score: 1 },
-  { position: 0, profilePhoto: heart, username: "Us2", score: 5 },
-  { position: 0, profilePhoto: kayden, username: "User4", score: 10 },
-  { position: 0, profilePhoto: heart, username: "User1", score: 35 },
-  { position: 0, profilePhoto: kayden, username: "User2", score: 50 },
-  { position: 0, profilePhoto: heart, username: "Us2", score: 86 },
-  { position: 0, profilePhoto: kayden, username: "User4", score: 20 },
-  { position: 0, profilePhoto: heart, username: "User1", score: 6 },
-  { position: 0, profilePhoto: kayden, username: "User2", score: 20 },
-  { position: 0, profilePhoto: heart, username: "Us2", score: 16 },
-  { position: 0, profilePhoto: kayden, username: "User4", score: 22 },
-  { position: 0, profilePhoto: heart, username: "User1", score: 63 },
-  { position: 0, profilePhoto: kayden, username: "User2", score: 77 },
-  { position: 0, profilePhoto: heart, username: "Us2", score: 11 },
-  { position: 0, profilePhoto: kayden, username: "User4", score: 26 }
-];
 
 async function GetGameLogData(username: string): Promise<scoreInfo[]> {
   try {
