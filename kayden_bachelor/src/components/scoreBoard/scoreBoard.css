@@ -35,7 +35,7 @@
 
 .scoreboard-entry {
   display: grid;
-  grid-template-columns: 0.2fr 2fr 2.5fr 1fr;
+  grid-template-columns: 1fr 1.5fr 0.5fr;
   align-items: center;
   padding: 10px;
   padding-left: 50px;
@@ -55,11 +55,13 @@ img {
 .button-container {
   display: flex;
   justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
   margin-bottom: 20px; /* Add some margin for spacing */
-  text-decoration: none;
 }
 
 .button-container button:active {
   background-color: #b7000091; /* Change background color on click */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box shadow on click */
+  text-decoration: none; /* Remove text underline on click */
+  outline: none; /* Remove button outline on click */
 }

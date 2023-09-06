@@ -31,7 +31,13 @@ export const ResultsPage = () => {
             }}>Play again?
             </button>
             <button className={"scoreBoard"} onClick={() => {
-              navigate("/scoreboard")
+              navigate("/scoreboard", {
+                state: {
+                  // ToDo: Use username from Google OAuth profile
+                  username: "username",
+                  currentScore: state.score
+                }
+              })
             }}>Scoreboard
             </button>
           </article>

@@ -3,6 +3,8 @@ import kayden from "../../assets/images/kayden.png";
 import heart from "../../assets/images/heart.png";
 import "./scoreBoard.css";
 import { getData } from "../../utilities/db";
+import { useNavigate } from "react-router-dom";
+import { StateType } from "../../constants";
 
 export type ScoreBoardProps = {
   username: string;
@@ -11,7 +13,6 @@ export type ScoreBoardProps = {
 
 type scoreInfo = {
   position: number;
-  profilePhoto: string;
   username: string;
   score: number;
 }
@@ -36,19 +37,34 @@ const gameLogData = [
 ];
 
 async function GetGameLogData(username: string): Promise<scoreInfo[]> {
-  const sortedData: scoreInfo[] = [...gameLogData];
-  //const sortedData: scoreInfo[] = await getData(username);
+  try {
+  //const sortedData: scoreInfo[] = [...gameLogData];
+  const storedData: StateType[] = await getData(username); // Assuming getData returns an array of StateType
+  console.log(storedData);
 
-  sortedData.sort((a, b) => b.score - a.score);
+  if (!Array.isArray(storedData) || storedData.length === 0) {
+    return [];
+  }
 
-  sortedData.forEach((entry, index) => {
-    entry.position = index + 1;
-  });
+  storedData.sort((a, b) => b.score - a.score);
+
+  // Extract the "score" property from each entry and create scoreInfo objects
+  const sortedData: scoreInfo[] = storedData.map((entry, index) => ({
+    position: index + 1,
+    username: username,         // from your StateType object
+    score: entry.score,
+  }));
 
   return sortedData;
 }
+catch (error) {
+  console.error("Error in GetGameLogData:", error);
+  return [];
+}
+}
 
-export const Scoreboard = ({ username, currentScore }: ScoreBoardProps) => {
+export const Scoreboard = ({ username, currentScore }: ScoreBoardProps) => {  
+  const navigate = useNavigate();
   const [scoreboardData, setScoreboardData] = useState<scoreInfo[]>([]);
   const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
 
@@ -66,26 +82,30 @@ export const Scoreboard = ({ username, currentScore }: ScoreBoardProps) => {
 
 
   return (
-    <section className="scoreboard">
-      <section className="scoreboard-latestScore">
-        <label className="latestScore-label">{ username }</label>
-        <label className="latestScore-label">Score: { currentScore }</label>
+    <>
+      <section className="button-container">
+        <button onClick={() => navigate("/dashboard")}>Dashboard</button>
       </section>
-      <section className="scoreboard-header">
-        <label className="header-label">Rank</label>
-        <label className="header-label">Username</label>
-        <label className="header-label">High Score</label>
-      </section>
-      {scoreboardData.map((entry, index) => (
-        <section
-          key={index}
-          className={`scoreboard-entry ${index === highlightedIndex ? "highlighted-entry" : ""}`}>
-          <label className="position">{entry.position}</label>
-          <img src={entry.profilePhoto} alt={`Profile pic for ${entry.username}`} />
-          <label className="username">{entry.username}</label>
-          <label className="score">{entry.score}</label>
+      <section className="scoreboard">
+        <section className="scoreboard-latestScore">
+          <label className="latestScore-label">{username}</label>
+          <label className="latestScore-label">Score: {currentScore}</label>
         </section>
-      ))}
-  </section>
+        <section className="scoreboard-header">
+          <label className="header-label">Rank</label>
+          <label className="header-label">Username</label>
+          <label className="header-label">High Score</label>
+        </section>
+        {scoreboardData.map((entry, index) => (
+          <section
+            key={index}
+            className={`scoreboard-entry ${index === highlightedIndex ? "highlighted-entry" : ""}`}>
+            <label className="position">{entry.position}</label>
+            <label className="username">{entry.username}</label>
+            <label className="score">{entry.score}</label>
+          </section>
+        ))}
+      </section>
+    </>
   );
 };
