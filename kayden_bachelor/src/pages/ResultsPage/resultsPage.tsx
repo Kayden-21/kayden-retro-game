@@ -1,16 +1,27 @@
 import React from "react";
 import "../../assets/css/main.css";
-import { MainLayout } from "../../components/baseLayout/baseLayout";
-import { TopPanel } from "../../components/topPanel/topPanel";
-import { BodyPanel } from "../../components/bodyPanel/bodyPanel";
+import {MainLayout} from "../../components/baseLayout/baseLayout";
+import {TopPanel} from "../../components/topPanel/topPanel";
+import {BodyPanel} from "../../components/bodyPanel/bodyPanel";
+import {CONSTANTS} from "../../constants";
+import {useLocation} from "react-router-dom";
+
+
 
 export const ResultsPage = () => {
+  const {state} = useLocation();
+
   return (
     <MainLayout>
-      <TopPanel heading="The Bachelor: Kayden Edition" />
+      <TopPanel heading={CONSTANTS.MAIN_HEADING}/>
       <BodyPanel className="">
-        {/* add the results thingy here (can use the gridlayout component to add in what you want on the page) */}
-        {/* ...can also pass in your own classname for the panel to make the panel bigger or whatever you want */}
+        <h2>YOU GOT REJECTED</h2>
+        {state?.score >= 0 &&
+
+          <h3>{`This is your score: ${state.score}`}</h3>
+        }
+        <a href={'/play'}>Play again</a>
+
       </BodyPanel>
     </MainLayout>
   );
