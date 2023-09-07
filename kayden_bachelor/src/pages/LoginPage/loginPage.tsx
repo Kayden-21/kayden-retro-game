@@ -13,7 +13,8 @@ export const LoginPage = () => {
 
   const handleLoginClick = async () => {
     try {
-      await signInWithGoogle();
+      let user = await signInWithGoogle();
+      sessionStorage.setItem('username',user.Ix.Ay)
       navigate('/dashboard');
     } catch (error) {
       console.error('Google authentication failed', error);

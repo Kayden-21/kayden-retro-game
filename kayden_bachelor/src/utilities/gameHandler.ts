@@ -16,7 +16,7 @@ export class GameHandler {
       this.randomInitializationForNewGame(this.state);
     } else {
       try {
-        let fetchedStateFromDb = await getData("state");
+        let fetchedStateFromDb = await getData(`${window.sessionStorage.getItem('username')}_state`);
 
         if (!fetchedStateFromDb) {
 
@@ -76,7 +76,7 @@ export class GameHandler {
 
   async saveState(){
     try{
-      await putData("state", this.state)
+      await putData(`${window.sessionStorage.getItem('username')}_state`, this.state)
     }catch (error){
       console.log(`Failed saving of state ${error}`);
     }
@@ -95,7 +95,7 @@ export class GameHandler {
         existingData = [this.state];
       }
       await putData(username, existingData);
-      await deleteData("state")
+      await deleteData(`${username}_state`)
     }catch (error){
       console.log(`Failed deleting of state ${error}`);
     }
