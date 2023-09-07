@@ -206,7 +206,7 @@ export const GamePanel = ({
 
     canvas.addEventListener("click", function (event) {
 
-      const mouseX = event.clientX - canvas.getBoundingClientRect().left - 20;
+      const mouseX = event.clientX - canvas.getBoundingClientRect().left;
       const mouseY = event.clientY - canvas.getBoundingClientRect().top;
 
       buttons.forEach(button => {
@@ -277,7 +277,7 @@ export const GamePanel = ({
 
   return (
     <section className={className ? className : "gamePanel"}>
-      <canvas width="1500" height="600" id="gameCanvas" className="canvas"></canvas>
+      <canvas width="1400" height="550" id="gameCanvas" className="canvas"></canvas>
     </section>
   );
 };
