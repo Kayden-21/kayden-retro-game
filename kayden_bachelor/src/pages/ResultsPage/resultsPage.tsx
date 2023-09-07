@@ -34,8 +34,8 @@ export const ResultsPage = () => {
             <button className={"scoreBoard"} onClick={async () => {
               navigate("/scoreboard", {
                 state: {
-                  username:  await getData("username"),
-                  currentScore: 0
+                  username: sessionStorage.getItem("username"),
+                  currentScore: state.score
                 }
               })
             }}>Scoreboard

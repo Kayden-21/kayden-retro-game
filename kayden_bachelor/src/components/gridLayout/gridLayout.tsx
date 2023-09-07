@@ -25,7 +25,7 @@ export const GridLayout = ({
           }})}}>{rightChildrenText1}</section>
         <section className="buttonLeaderboard" onClick={async () => {navigate("/scoreboard", {
                 state: {
-                  username:  await getData("username"),
+                  username: sessionStorage.getItem("username"),
                   currentScore: 0
                 }
               })}}>{rightChildrenText2}</section>
