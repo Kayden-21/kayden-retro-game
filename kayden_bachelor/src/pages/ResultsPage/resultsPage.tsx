@@ -34,7 +34,6 @@ export const ResultsPage = () => {
             <button className={"scoreBoard"} onClick={async () => {
               navigate("/scoreboard", {
                 state: {
-                  // ToDo: Use username from Google OAuth profile
                   username:  await getData("username"),
                   currentScore: 0
                 }
