@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.678ace94.css",
+    "main.js": "/static/js/main.7d63855d.js",
+    "static/media/loginBackground.png": "/static/media/loginBackground.7103f4b64c246762edfc.png",
+    "static/media/mainBackground.png": "/static/media/mainBackground.1227f0e22ea35af838f4.png",
+    "static/media/KaydenRejected.png": "/static/media/KaydenRejected.0cfbbd7786b4406be9c7.png",
+    "static/media/kayden.png": "/static/media/kayden.a748ae4db5fcbf9a491e.png",
+    "static/media/brokenHome.png": "/static/media/brokenHome.52524a82e3b98c3ca277.png",
+    "static/media/marriage.png": "/static/media/marriage.7ede0c7bc09865e66937.png",
+    "static/media/kaydenFace.png": "/static/media/kaydenFace.f29e1eae611f282e2bc5.png",
+    "index.html": "/index.html",
+    "main.678ace94.css.map": "/static/css/main.678ace94.css.map",
+    "main.7d63855d.js.map": "/static/js/main.7d63855d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.678ace94.css",
+    "static/js/main.7d63855d.js"
+  ]
+}
