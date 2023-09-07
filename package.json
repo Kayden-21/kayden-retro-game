@@ -1,0 +1,8 @@
+{
+    "name": "your-package",
+    "version": "1.0.0",
+    "scripts": {
+      "install-package": "cd kayden_bachelor && npm install",
+      "run-package": "cd kayden_bachelor && npm run",
+    }
+}
