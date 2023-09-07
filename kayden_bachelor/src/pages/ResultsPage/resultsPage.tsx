@@ -8,6 +8,7 @@ import {TopPanel} from "../../components/topPanel/topPanel";
 import {BodyPanel} from "../../components/bodyPanel/bodyPanel";
 import {CONSTANTS} from "../../constants";
 import {useLocation, useNavigate} from "react-router-dom";
+import { getData } from "../../utilities/db";
 
 
 export const ResultsPage = () => {
@@ -30,12 +31,12 @@ export const ResultsPage = () => {
               navigate("/play", {state: {newGame: true}})
             }}>Play again?
             </button>
-            <button className={"scoreBoard"} onClick={() => {
+            <button className={"scoreBoard"} onClick={async () => {
               navigate("/scoreboard", {
                 state: {
                   // ToDo: Use username from Google OAuth profile
-                  username: "username",
-                  currentScore: state.score
+                  username:  await getData("username"),
+                  currentScore: 0
                 }
               })
             }}>Scoreboard
