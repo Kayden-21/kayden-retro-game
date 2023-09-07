@@ -3,6 +3,8 @@
     "version": "1.0.0",
     "scripts": {
       "install-package": "cd kayden_bachelor && npm install",
+      "install-package-serve": "cd kayden_bachelor && npm install -g serve",
+      "run-package-serve": "cd kayden_bachelor && serve -s build",
       "run-package": "cd kayden_bachelor && npm start"
     }
 }
