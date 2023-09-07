@@ -85,7 +85,6 @@ export class GameHandler {
   async gameOver(): Promise<void> {
     try{
       let existingData: StateType[] = await getData("username");
-      console.log(this.state.score);
       if (existingData) {
         existingData.push(this.state);
       } else {
