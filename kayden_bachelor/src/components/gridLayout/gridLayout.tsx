@@ -1,3 +1,4 @@
+import { getData } from "../../utilities/db";
 import "./gridLayout.css";
 import {useNavigate} from "react-router-dom";
 
@@ -22,10 +23,9 @@ export const GridLayout = ({
         <section className="buttonPlay" onClick={()=>{navigate("/play",{state: {
           newGame: true
           }})}}>{rightChildrenText1}</section>
-        <section className="buttonLeaderboard" onClick={() => {navigate("/scoreboard", {
+        <section className="buttonLeaderboard" onClick={async () => {navigate("/scoreboard", {
                 state: {
-                  // ToDo: Use username from Google OAuth profile
-                  username: "username",
+                  username: sessionStorage.getItem("username"),
                   currentScore: 0
                 }
               })}}>{rightChildrenText2}</section>

@@ -84,13 +84,17 @@ export class GameHandler {
 
   async gameOver(): Promise<void> {
     try{
-      let existingData: StateType[] = await getData("username");
+      let username = sessionStorage.getItem("username");
+      if(username === null){
+        username = "";
+      }
+      let existingData: StateType[] = await getData(username);
       if (existingData) {
         existingData.push(this.state);
       } else {
         existingData = [this.state];
       }
-      await putData("username", existingData);
+      await putData(username, existingData);
       await deleteData("state")
     }catch (error){
       console.log(`Failed deleting of state ${error}`);
