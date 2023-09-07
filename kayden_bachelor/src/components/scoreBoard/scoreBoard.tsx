@@ -17,9 +17,10 @@ type scoreInfo = {
 
 async function GetGameLogData(username: string): Promise<scoreInfo[]> {
   try {
-  //const sortedData: scoreInfo[] = [...gameLogData];
-  const storedData: StateType[] = await getData(username); // Assuming getData returns an array of StateType
-  console.log(storedData);
+    if(username === undefined){
+      username = "";
+    }
+  const storedData: StateType[] = await getData(username);
 
   if (!Array.isArray(storedData) || storedData.length === 0) {
     return [];

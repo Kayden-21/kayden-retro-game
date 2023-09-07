@@ -22,7 +22,13 @@ export const GridLayout = ({
         <section className="buttonPlay" onClick={()=>{navigate("/play",{state: {
           newGame: true
           }})}}>{rightChildrenText1}</section>
-        <section className="buttonLeaderboard" onClick={() => {navigate("/scoreboard")}}>{rightChildrenText2}</section>
+        <section className="buttonLeaderboard" onClick={() => {navigate("/scoreboard", {
+                state: {
+                  // ToDo: Use username from Google OAuth profile
+                  username: "username",
+                  currentScore: 0
+                }
+              })}}>{rightChildrenText2}</section>
         <section className="buttonLeaderboard" onClick={() => {navigate("/play",{state:{newGame: false}})}}>{rightChildrenText3}</section>
       </section>
     </section>
