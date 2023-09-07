@@ -89,7 +89,6 @@ export class GameHandler {
         username = "";
       }
       let existingData: StateType[] = await getData(username);
-      console.log(this.state.score);
       if (existingData) {
         existingData.push(this.state);
       } else {

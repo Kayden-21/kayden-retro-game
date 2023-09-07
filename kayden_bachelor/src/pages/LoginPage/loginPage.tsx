@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { LoginLayout } from "../../components/baseLayout/baseLayout";
 import { useNavigate } from 'react-router-dom';
 import { initializeGoogleAuth, signInWithGoogle } from '../../utilities/GoogleAuth';
+import "./loginPage.css";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export const LoginPage = () => {
 
   return (
     <LoginLayout>
-      <button onClick={handleLoginClick}>Login with Google</button>
+      <button className={"loginButton"} onClick={handleLoginClick}>Login with Google</button>
     </LoginLayout>
   );
 };
